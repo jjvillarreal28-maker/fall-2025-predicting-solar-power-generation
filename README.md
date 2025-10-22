@@ -19,8 +19,6 @@ Ensemble methods provide moderate prediction improvement, but lose interpretibil
 | Tuned ExtraTrees | 339.55 |
 | Tuned XGBoost Model | 338.72 |
 
-*one of many
-
 ## Features
 [chosen list of features from EDA]
 
