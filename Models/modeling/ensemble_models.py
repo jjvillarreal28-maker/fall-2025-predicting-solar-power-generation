@@ -1,10 +1,9 @@
 import numpy as np
 import pandas as pd
-from sklearn.dummy import DummyRegressor
 from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor
-from itertools import product
-from sklearn.metrics import root_mean_squared_error
 from xgboost import XGBRegressor
+from sklearn.model_selection import TimeSeriesSplit
+from sklearn.model_selection import GridSearchCV
 
 class ForestRegressions:
     def __init__(self, df_train:pd.DataFrame, df_test:pd.DataFrame):
@@ -15,10 +14,10 @@ class ForestRegressions:
 
     def fit(self,feature_list:list, param_list=None):
 
+        tscv = TimeSeriesSplit(n_splits=5)
+
         X_train = self.df_train[feature_list]
-        y_train = self.df_train["Energy"]
-        X_test = self.df_test[feature_list]
-        y_test = self.df_test["Energy"]
+        y_train = self.df_train['Energy']
         
         if param_list is None:
             param_list = {
@@ -27,23 +26,10 @@ class ForestRegressions:
             'min_samples_split': [3, 4, 10],
             'min_samples_leaf': [3, 4, 10]}
 
-        keys, values = zip(*param_list.items())
-        param_combinations = [dict(zip(keys, v)) for v in product(*values)]
-        best_rmse = np.inf
-        best_model = None
-
-        for params in param_combinations:
-            model = RandomForestRegressor(**params,n_jobs=-1)
-            model.fit(X_train, y_train)
-            
-            preds = model.predict(X_test)
-            rmse = root_mean_squared_error(y_test, preds)
-            
-            if rmse < best_rmse:
-                best_rmse = rmse
-                best_model = model
+        search = GridSearchCV(RandomForestRegressor(),param_grid=param_list,cv=tscv,scoring='neg_root_mean_squared_error',n_jobs=-1)
+        search.fit(X_train,y_train)
         
-        self.models[tuple(feature_list)] = best_model
+        self.models[tuple(feature_list)] = search.best_estimator_
 
     def get_model(self, feature_list:list):
         return self.models.get(tuple(feature_list))
@@ -63,10 +49,10 @@ class ExtraTreesRegressions:
 
     def fit(self,feature_list:list, param_list=None):
 
+        tscv = TimeSeriesSplit(n_splits=5)
+
         X_train = self.df_train[feature_list]
-        y_train = self.df_train["Energy"]
-        X_test = self.df_test[feature_list]
-        y_test = self.df_test["Energy"]
+        y_train = self.df_train['Energy']
         
         if param_list is None:
             param_list = {
@@ -75,23 +61,10 @@ class ExtraTreesRegressions:
             'min_samples_split': [3, 4, 10],
             'min_samples_leaf': [3, 4, 10]}
 
-        keys, values = zip(*param_list.items())
-        param_combinations = [dict(zip(keys, v)) for v in product(*values)]
-        best_rmse = np.inf
-        best_model = None
-
-        for params in param_combinations:
-            model = ExtraTreesRegressor(**params,n_jobs=-1)
-            model.fit(X_train, y_train)
-            
-            preds = model.predict(X_test)
-            rmse = root_mean_squared_error(y_test, preds)
-            
-            if rmse < best_rmse:
-                best_rmse = rmse
-                best_model = model
+        search = GridSearchCV(ExtraTreesRegressor(),param_grid=param_list,cv=tscv,scoring='neg_root_mean_squared_error',n_jobs=-1)
+        search.fit(X_train,y_train)
         
-        self.models[tuple(feature_list)] = best_model
+        self.models[tuple(feature_list)] = search.best_estimator_
 
     def get_model(self, feature_list:list):
         return self.models.get(tuple(feature_list))
@@ -111,10 +84,10 @@ class XGBoostRegressions:
 
     def fit(self,feature_list:list, param_list=None):
 
+        tscv = TimeSeriesSplit(n_splits=5)
+
         X_train = self.df_train[feature_list]
-        y_train = self.df_train["Energy"]
-        X_test = self.df_test[feature_list]
-        y_test = self.df_test["Energy"]
+        y_train = self.df_train['Energy']
         
         if param_list is None:
             param_list = {
@@ -126,25 +99,11 @@ class XGBoostRegressions:
                 'reg_alpha': [0, 0.1, 1],
                 'reg_lambda': [0, 2, 5]}
 
-        keys, values = zip(*param_list.items())
-        param_combinations = [dict(zip(keys, v)) for v in product(*values)]
-        best_rmse = np.inf
-        best_model = None
-        best_parameters = None
-
-        for params in param_combinations:
-            model = XGBRegressor(**params,n_jobs=-1)
-            model.fit(X_train, y_train)
-            
-            preds = model.predict(X_test)
-            rmse = root_mean_squared_error(y_test, preds)
-            
-            if rmse < best_rmse:
-                best_rmse = rmse
-                best_model = model
-                best_parameters = params
+        search = GridSearchCV(XGBRegressor(),param_grid=param_list,cv=tscv,scoring='neg_root_mean_squared_error',n_jobs=-1)
+        search.fit(X_train,y_train)
         
-        self.models[tuple(feature_list)] = best_model
+        self.models[tuple(feature_list)] = search.best_estimator_
+
 
     def get_model(self, feature_list:list):
         return self.models.get(tuple(feature_list))
