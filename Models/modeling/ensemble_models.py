@@ -91,13 +91,10 @@ class XGBoostRegressions:
         
         if param_list is None:
             param_list = {
-                'n_estimators': [100, 200, 300],
-                'learning_rate': [0.05, 0.1],
+                'n_estimators': [100, 200, 300, 400, 500],
+                'learning_rate': [0.01, 0.05, 0.1],
                 'max_depth': [3, 5, 7],
-                'subsample': [0.8, 1.0],
-                'colsample_bytree': [0.8, 1.0],
-                'reg_alpha': [0, 0.1, 1],
-                'reg_lambda': [0, 2, 5]}
+                'subsample': [0.8, 1.0]}
 
         search = GridSearchCV(XGBRegressor(),param_grid=param_list,cv=tscv,scoring='neg_root_mean_squared_error',n_jobs=-1)
         search.fit(X_train,y_train)
@@ -106,9 +103,6 @@ class XGBoostRegressions:
 
 
     def get_model(self, feature_list:list):
-        return self.models.get(tuple(feature_list))
-    
-    def get_parameters(self, feature_list:list):
         return self.models.get(tuple(feature_list))
     
     def predictions(self, feature_list:list):

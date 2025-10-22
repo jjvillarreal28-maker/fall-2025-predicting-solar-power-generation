@@ -15,9 +15,9 @@ Ensemble methods provide moderate prediction improvement, but lose interpretibil
 | -------- | ------- |
 | Mean Baseline | 617.75 |
 | Prior Year Baseline | 590.57 |
-| Linear Regression Model* | 356.52 |
-| Tuned ExtraTrees* | 329.90 |
-| Tuned XGBoost Model* | 332.56 |
+| Linear Regression Model | 356.16 |
+| Tuned ExtraTrees | 339.55 |
+| Tuned XGBoost Model | 338.72 |
 
 *one of many
 
