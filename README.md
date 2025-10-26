@@ -11,7 +11,7 @@ Some weather data was included in this dataset, but additional weather data was 
 
 ## Results
 We start with some baseline models to compare against. These predict the energy is always the mean of the previous years, or the energy at a given time is the same as previous years. The more involved models are trained on 2022, validated on 2023, and tested on 2024. Linear regression models start with a basic feature set using just the solar zenith angle. Additional linear models are built using a variety of modifications: adding more features, applying cosine to the solar zenith angle, and including interaction terms between features. We also used ensemble models. As these models do not inherently have time, lag terms were added as possible features. The parameters for these ensemble models were tuned using grid search and cross-validation in the training year.
-| Model Name | RMSE | $`r^{2}`$ |
+| Model Name | RMSE | $`R^{2}`$ |
 | -------- | ------- | ------- |
 | Mean Baseline | 617.75 | -0.004 |
 | Prior Year Baseline | 590.57 | 0.082 |
