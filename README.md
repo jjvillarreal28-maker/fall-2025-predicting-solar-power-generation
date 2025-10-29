@@ -29,4 +29,4 @@ The features DNI, DHI, and GHI in the weather data are all highly correlated wit
 Ensemble methods provide moderate prediction improvement, but lose interpretibility; however, since we have no control over the weather features knowing exactly how much, for example, cloud cover impacts solar power is not as important.
 
 ## Future Directions
-The PVDAQ Solar Data Bounty Prize includes several other solar farms, and there are also many other datasets that are not included in the bounty data sets. Other weather features, using more years, or including panel tilt are also possible extensions. With more features, spending additional time tuning parameters for the ensemble methods may be necessary.
+The PVDAQ Solar Data Bounty Prize includes several other solar farms, and there are also many other datasets that are not included in the bounty data sets. Other weather features, using more years, or including panel tilt are also possible extensions. With more features, spending additional time tuning parameters for the ensemble methods may be necessary..
