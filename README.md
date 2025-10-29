@@ -15,7 +15,7 @@ We start with some baseline models to compare against. These predict the energy 
 | -------- | ------- | ------- |
 | Mean Baseline | 1232 | -0.001 |
 | Prior Year Baseline | 1197 | 0.054 |
-| Linear Regression | 702 | 0.668 |
+| Linear Regression | 814 | 0.584 |
 | Tuned ExtraTrees | 767 | 0.631 |
 | Tuned XGBoost | 768 | 0.630 |
 
